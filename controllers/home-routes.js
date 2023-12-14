@@ -1,13 +1,12 @@
 const router = require('express').Router();
-const { Post, User, Comment } = require('../models');
+const { Blog, User, Comment } = require('../models');
 
-// get all posts for homepage
+// get all blogs for homepage
 router.get('/', (req, res) => {
   console.log(req.session);
-  Post.findAll({
+  Blog.findAll({
     attributes: [
       'id',
-//      'url',
       'title',
       'body',
       'created_at',
@@ -15,7 +14,7 @@ router.get('/', (req, res) => {
     include: [
       {
         model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        attributes: ['id', 'comment_text', 'blog_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
@@ -27,11 +26,11 @@ router.get('/', (req, res) => {
       }
     ]
   })
-    .then(postData => {
-      const posts = postData.map(post => post.get({ plain: true }));
+    .then(blogData => {
+      const blogs = blogData.map(blog => blog.get({ plain: true }));
 
       res.render('homepage', {
-        posts,
+        blogs,
         loggedIn: req.session.loggedIn
       });
     })
@@ -41,15 +40,14 @@ router.get('/', (req, res) => {
     });
 });
 
-// get single post
-router.get('/post/:id', (req, res) => {
-  Post.findOne({
+// get a single blog
+router.get('/blog/:id', (req, res) => {
+  Blog.findOne({
     where: {
       id: req.params.id
     },
     attributes: [
       'id',
-//      'url',
       'title',
       'body',
       'created_at',
@@ -57,7 +55,7 @@ router.get('/post/:id', (req, res) => {
     include: [
       {
         model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        attributes: ['id', 'comment_text', 'blog_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
@@ -69,16 +67,16 @@ router.get('/post/:id', (req, res) => {
       }
     ]
   })
-    .then(postData => {
-      if (!postData) {
-        res.status(404).json({ message: 'No post found with this id' });
+    .then(blogData => {
+      if (!blogData) {
+        res.status(404).json({ message: 'No blog found' });
         return;
       }
 
-      const post = postData.get({ plain: true });
+      const blog = blogData.get({ plain: true });
 
-      res.render('single-post', {
-        post,
+      res.render('single-blog', {
+        blog,
         loggedIn: req.session.loggedIn
       });
     })

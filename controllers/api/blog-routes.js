@@ -1,15 +1,13 @@
 const router = require('express').Router();
-//const sequelize = require('../../config/connection');
-const { Post, User, Comment } = require('../../models');
+const { Blog, User, Comment } = require('../../models');
  const withAuth = require('../../utils/auth');
 
 // get all users
 router.get('/', (req, res) => {
   
-  Post.findAll({
+  Blog.findAll({
     attributes: [
       'id',
-      // 'url',
       'title',
       'body',
       'created_at',
@@ -18,7 +16,7 @@ router.get('/', (req, res) => {
     include: [
       {
         model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        attributes: ['id', 'comment_text', 'blog_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
@@ -30,7 +28,7 @@ router.get('/', (req, res) => {
       }
     ]
   })
-    .then(postData => res.json(postData))
+    .then(blogData => res.json(blogData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
@@ -38,13 +36,12 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  Post.findOne({
+  Blog.findOne({
     where: {
       id: req.params.id
     },
     attributes: [
       'id',
-      // 'url',
       'title',
       'body',
       'created_at',
@@ -52,7 +49,7 @@ router.get('/:id', (req, res) => {
     include: [
       {
         model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        attributes: ['id', 'comment_text', 'blog_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
@@ -64,12 +61,12 @@ router.get('/:id', (req, res) => {
       }
     ]
   })
-    .then(postData => {
-      if (!postData) {
-        res.status(404).json({ message: 'No post found with this id' });
+    .then(blogData => {
+      if (!blogData) {
+        res.status(404).json({ message: 'No blog found' });
         return;
       }
-      res.json(postData);
+      res.json(blogData);
     })
     .catch(err => {
       console.log(err);
@@ -78,13 +75,12 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', withAuth, (req, res) => {
-  Post.create({
+  Blog.create({
     title: req.body.title,
     body: req.body.body,
-    // url: req.body.url,
     user_id: req.session.user_id
   })
-    .then(postData => res.json(postData))
+    .then(blogData => res.json(blogData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
@@ -92,7 +88,7 @@ router.post('/', withAuth, (req, res) => {
 });
 
 router.put('/:id', withAuth, (req, res) => {
-  Post.update(
+  Blog.update(
     {
       title: req.body.title,
       body: req.body.body
@@ -103,12 +99,12 @@ router.put('/:id', withAuth, (req, res) => {
       }
     }
   )
-    .then(postData => {
-      if (!postData) {
-        res.status(404).json({ message: 'No post found with this id' });
+    .then(blogData => {
+      if (!blogData) {
+        res.status(404).json({ message: 'No blog found' });
         return;
       }
-      res.json(postData);
+      res.json(blogData);
     })
     .catch(err => {
       console.log(err);
@@ -118,17 +114,17 @@ router.put('/:id', withAuth, (req, res) => {
 
 router.delete('/:id', withAuth, (req, res) => {
   console.log('id', req.params.id);
-  Post.destroy({
+  Blog.destroy({
     where: {
       id: req.params.id
     }
   })
-    .then(postData => {
-      if (!postData) {
-        res.status(404).json({ message: 'No post found with this id' });
+    .then(blogData => {
+      if (!blogData) {
+        res.status(404).json({ message: 'No blog found' });
         return;
       }
-      res.json(postData);
+      res.json(blogData);
     })
     .catch(err => {
       console.log(err);

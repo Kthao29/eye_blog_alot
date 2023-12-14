@@ -17,7 +17,7 @@ router.post('/', withAuth, (req, res) => {
   Comment.create({
     comment_text: req.body.comment_text,
     user_id: req.session.user_id,
-    post_id: req.body.post_id
+    blog_id: req.body.blog_id
   })
     .then(commentData => res.json(commentData))
     .catch(err => {
@@ -40,7 +40,7 @@ router.put('/:id', withAuth, (req, res) => {
   )
     .then(commentData => {
       if (!commentData) {
-        res.status(404).json({ message: 'No post found with this id' });
+        res.status(404).json({ message: 'No blog found' });
         return;
       }
       res.json(commentData);
@@ -60,7 +60,7 @@ router.delete('/:id', withAuth, (req, res) => {
   })
     .then(commentData => {
       if (!commentData) {
-        res.status(404).json({ message: 'No comment found with this id!' });
+        res.status(404).json({ message: 'No comment found' });
         return;
       }
       res.json(commentData);

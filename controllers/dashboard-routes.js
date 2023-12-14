@@ -1,17 +1,16 @@
 const router = require('express').Router();
-const { Post, User, Comment } = require('../models');
+const { Blog, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-// get all posts for dashboard
+// get all blogs for dashboard
 router.get('/', withAuth, (req, res) => {
 
-  Post.findAll({
+  Blog.findAll({
     where: {
       user_id: req.session.user_id
     },
     attributes: [
       'id',
-      // 'url',
       'title',
       'body',
       'created_at',
@@ -19,7 +18,7 @@ router.get('/', withAuth, (req, res) => {
     include: [
       {
         model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        attributes: ['id', 'comment_text', 'blog_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
@@ -31,9 +30,9 @@ router.get('/', withAuth, (req, res) => {
       }
     ]
   })
-    .then(postData => {
-      const posts = postData.map(post => post.get({ plain: true }));
-      res.render('dashboard', { posts, loggedIn: true });
+    .then(blogData => {
+      const blogs = blogData.map(blog => blog.get({ plain: true }));
+      res.render('dashboard', { blogs, loggedIn: true });
     })
     .catch(err => {
       console.log(err);
@@ -42,10 +41,9 @@ router.get('/', withAuth, (req, res) => {
 });
 
 router.get('/edit/:id', withAuth, (req, res) => {
-  Post.findByPk(req.params.id, {
+  Blog.findByPk(req.params.id, {
     attributes: [
       'id',
-      // 'url',
       'title',
       'body',
       'created_at',
@@ -53,7 +51,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
     include: [
       {
         model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        attributes: ['id', 'comment_text', 'blog_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
@@ -65,12 +63,12 @@ router.get('/edit/:id', withAuth, (req, res) => {
       }
     ]
   })
-    .then(postData => {
-      if (postData) {
-        const post = postData.get({ plain: true });
+    .then(blogData => {
+      if (blogData) {
+        const blog = blogData.get({ plain: true });
         
-        res.render('edit-post', {
-          post,
+        res.render('edit-blog', {
+          blog,
           loggedIn: true
         });
       } else {
