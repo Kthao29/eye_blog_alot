@@ -14,7 +14,7 @@
             <textarea name="blog-body">{{blog.body}}</textarea>
         </div>
         <div>
-            Blogged by you on {{format_date blog.created_at}}
+            Blogged  {{format_date blog.created_at}}
             |
             <a href="/blog/{{blog.id}}">{{blog.comments.length}} {{format_plural "comment" blog.comments.length}}</a>
         </div>
@@ -23,6 +23,7 @@
     </form>
 </article>
 
+{{!-- text area for making comments --}}
 <form class="comment-form">
     <div>
         <textarea name="comment-body"></textarea>

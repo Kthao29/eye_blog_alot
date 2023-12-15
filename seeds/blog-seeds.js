@@ -1,5 +1,6 @@
 const { Blog } = require('../models');
 
+//test for the blog data
 const blogData = [{
         title: 'Hello world',
         body: 'We all come together',

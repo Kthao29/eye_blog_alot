@@ -1,6 +1,7 @@
 
 const { Comment } = require('../models');
 
+//test for the comment section
 const commentData = [{
         comment_text: "I really like your idea!!! Give me MORE!!!",
         user_id: 1,

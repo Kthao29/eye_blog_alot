@@ -1,5 +1,6 @@
 const { User } = require('../models');
 
+//test for the user data
 const userData = [{
         username: 'World',
         email: 'helloworld@gmail.com',
