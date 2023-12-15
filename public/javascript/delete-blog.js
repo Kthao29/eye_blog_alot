@@ -1,4 +1,5 @@
-async function deleteFormHandler(event) {
+//function for deleting blogs
+const deleteFormHandler = async (event) => {
     event.preventDefault();
   
     const id = window.location.toString().split('/')[
@@ -15,5 +16,6 @@ async function deleteFormHandler(event) {
     }
   }
   
+  //addEventListener to delete button
   document.querySelector('.delete-blog-btn').addEventListener('click', deleteFormHandler);
   

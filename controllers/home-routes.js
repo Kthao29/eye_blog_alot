@@ -1,7 +1,8 @@
+//import required packages
 const router = require('express').Router();
 const { Blog, User, Comment } = require('../models');
 
-// get all blogs for homepage
+//get all blogs
 router.get('/', (req, res) => {
   console.log(req.session);
   Blog.findAll({
@@ -40,7 +41,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// get a single blog
+//get a single blog using id
 router.get('/blog/:id', (req, res) => {
   Blog.findOne({
     where: {
@@ -85,7 +86,8 @@ router.get('/blog/:id', (req, res) => {
       res.status(500).json(err);
     });
 });
-//login
+
+//login and gets redirected to homepage
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');
@@ -95,6 +97,8 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+
+//user signup 
 router.get('/signup', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');

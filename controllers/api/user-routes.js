@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { User, Blog, Comment } = require('../../models');
-//const withAuth = require('../../utils/auth');
 
 // get all users
 router.get('/', (req, res) => {
@@ -14,6 +13,7 @@ router.get('/', (req, res) => {
     });
 });
 
+//find a specific user by the id
 router.get('/:id', (req, res) => {
   User.findOne({
     attributes: { exclude: ['password'] },
@@ -48,6 +48,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//creating a user login
 router.post('/', (req, res) => {
 
   User.create({
@@ -70,6 +71,8 @@ router.post('/', (req, res) => {
     });
 });
 
+
+//find a user by email and then making sure they are able to login when the email do exist
 router.post('/login', (req, res) => {
   User.findOne({
     where: {
@@ -77,17 +80,17 @@ router.post('/login', (req, res) => {
     }
   }).then(userData => {
     if (!userData) {
-      res.status(400).json({ message: 'No user with that email address!' });
+      res.status(400).json({ message: 'No user with that email' });
       return;
     }
-
+//check the password to see if it's valid
     const validPassword = userData.checkPassword(req.body.password);
 
     if (!validPassword) {
       res.status(400).json({ message: 'Incorrect password!' });
       return;
     }
-
+//save the userData
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.username = userData.username; 
@@ -98,6 +101,7 @@ router.post('/login', (req, res) => {
   });
 });
 
+//user logged out
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
@@ -109,6 +113,7 @@ router.post('/logout', (req, res) => {
   }
 });
 
+// updating the user by id
 router.put('/:id', (req, res) => {
 
   User.update(req.body, {
@@ -119,7 +124,7 @@ router.put('/:id', (req, res) => {
   })
     .then(userData => {
       if (!userData) {
-        res.status(404).json({ message: 'No user found with this id' });
+        res.status(404).json({ message: 'No user found' });
         return;
       }
       res.json(userData);
@@ -130,6 +135,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
+//deleting the user by id
 router.delete('/:id', (req, res) => {
   User.destroy({
     where: {
@@ -138,7 +144,7 @@ router.delete('/:id', (req, res) => {
   })
     .then(userData => {
       if (!userData) {
-        res.status(404).json({ message: 'No user found with this id' });
+        res.status(404).json({ message: 'No user found' });
         return;
       }
       res.json(userData);
@@ -149,4 +155,5 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+//export it using router
 module.exports = router;

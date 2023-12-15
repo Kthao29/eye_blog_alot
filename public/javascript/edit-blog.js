@@ -1,4 +1,5 @@
-async function editFormHandler(event) {
+//function for editing blog
+const editFormHandler = async (event) => {
     event.preventDefault();
   
     const title = document.querySelector('input[name="blog-title"]').value.trim();
@@ -23,5 +24,5 @@ async function editFormHandler(event) {
       alert(response.statusText);
     }
   }
-  
+  //addEventListener to edit blog form
   document.querySelector('.edit-blog-form').addEventListener('submit', editFormHandler);

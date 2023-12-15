@@ -1,8 +1,9 @@
+//import the required packages
 const router = require('express').Router();
 const { Blog, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-// get all blogs for dashboard
+//get all blogs
 router.get('/', withAuth, (req, res) => {
 
   Blog.findAll({
@@ -40,6 +41,7 @@ router.get('/', withAuth, (req, res) => {
     });
 });
 
+//able to make edits to a specific blog
 router.get('/edit/:id', withAuth, (req, res) => {
   Blog.findByPk(req.params.id, {
     attributes: [

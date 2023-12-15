@@ -1,4 +1,5 @@
-async function deleteFormHandler(event) {
+//function to deleting comments
+const deleteFormHandler = async (event) => {
     event.preventDefault();
   
     const id = window.location.toString().split('/')[
@@ -14,5 +15,5 @@ async function deleteFormHandler(event) {
       alert(response.statusText);
     }
   }
-  
+  //addEventListener to delete comment button
   document.querySelector('.delete-comment-btn').addEventListener('click', deleteFormHandler);

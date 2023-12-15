@@ -1,4 +1,5 @@
-async function newFormHandler(event) {
+//function for creating a new blog
+const newFormHandler = async (event) => {
     event.preventDefault();
   
     const title = document.querySelector('input[name="blog-title"]').value;
@@ -22,4 +23,5 @@ async function newFormHandler(event) {
     }
   }
   
+  //addEventListener to submit button
   document.querySelector('.blog-form').addEventListener('submit', newFormHandler);

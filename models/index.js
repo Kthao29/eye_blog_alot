@@ -1,7 +1,9 @@
+//import User,Blog, and Comment
 const User = require('./User');
 const Blog = require('./Blog');
 const Comment = require('./Comment');
 
+//foreignKeys
 User.hasMany(Blog, {
     foreignKey: 'user_id'
 });
@@ -30,4 +32,5 @@ Blog.hasMany(Comment, {
     foreignKey: 'blog_id'
 });
 
+//export all of these foreignKey
 module.exports = { User, Blog, Comment }

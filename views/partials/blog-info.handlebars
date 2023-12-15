@@ -1,15 +1,15 @@
-<article class="post">
+<article class="blog">
     <div class="title">
         <span class="user-id"> {{user.username}} blogged on {{ format_date
             created_at}}</span> <br>
         <a href="/blog/{{id}}">{{title}}
 
         </a>
-        <p class="post-body">{{body}}</p>
+        <p class="blog-body">{{body}}</p>
 
 
     </div>
-    <div class="meta">
+    <div>
         <a href="/blog/{{id}}"> {{comments.length}} {{format_plural "comment" comments.length}}</a>
     </div>
 </article>

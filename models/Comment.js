@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
+//model for comment
 class Comment extends Model {}
 
 Comment.init(
@@ -41,4 +42,5 @@ Comment.init(
   }
 );
 
+//export Blog
 module.exports = Comment;

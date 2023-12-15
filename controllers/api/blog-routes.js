@@ -1,3 +1,4 @@
+
 const router = require('express').Router();
 const { Blog, User, Comment } = require('../../models');
  const withAuth = require('../../utils/auth');
@@ -35,6 +36,7 @@ router.get('/', (req, res) => {
     });
 });
 
+//get user by the id
 router.get('/:id', (req, res) => {
   Blog.findOne({
     where: {
@@ -74,6 +76,8 @@ router.get('/:id', (req, res) => {
     });
 });
 
+
+//creating a blog withAuth, making sure the user is logged in before being able to blog
 router.post('/', withAuth, (req, res) => {
   Blog.create({
     title: req.body.title,
@@ -87,6 +91,7 @@ router.post('/', withAuth, (req, res) => {
     });
 });
 
+//updating the blog and have withAuth, making sure the user is logged in before being able to change the blog
 router.put('/:id', withAuth, (req, res) => {
   Blog.update(
     {
@@ -112,6 +117,7 @@ router.put('/:id', withAuth, (req, res) => {
     });
 });
 
+//deleting the blog withAuth, making sure the user is logged in before being able to delete the blog
 router.delete('/:id', withAuth, (req, res) => {
   console.log('id', req.params.id);
   Blog.destroy({
@@ -132,4 +138,5 @@ router.delete('/:id', withAuth, (req, res) => {
     });
 });
 
+//export all these information into "router"
 module.exports = router;
